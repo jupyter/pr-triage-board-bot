@@ -8,14 +8,32 @@ Some example project boards that result from this bot are:
 * [JupyterLab](https://github.com/orgs/jupyterlab/projects/11)
 * [GeoJupyter](https://github.com/orgs/geojupyter/projects/3)
 
-
 ## What is this?
 
-To be filled out, but see these two yet to be published blog posts
-from 2i2c for context:
+Please see [this blog post](https://medium.com/@yuvipanda/scaling-maintainer-intuition-with-pull-request-triage-boards-779f2387498b)
+for more information while we fill out this section of the README.
 
-1. https://github.com/2i2c-org/2i2c-org.github.io/pull/415
-2. https://github.com/2i2c-org/2i2c-org.github.io/pull/412
+## Principles
+
+This section iterates the general principles that inform the design and operation of this bot.
+
+1. The bot **owns** the following:
+   1. The schema of the [Project Fields](https://docs.github.com/en/issues/planning-and-tracking-with-projects/understanding-fields)
+   2. The values of the project fields for all PRs that have been added to the board
+
+   Any changes humans make to those will be reverted by the bot the next time it runs.
+
+   It currently does **not own** the following:
+   1. The various *views* (tabs) in the Project Board, as these are more specific to each project's humans and what they
+      find useful.
+
+   Changes to that are not reverted by the bot the next time it runs.
+
+2. The calculation of the values for Project Fields should be all **deterministic**, so they are stable between runs as long
+   as the PR itself doesn't change.
+
+3. The bot should be useable across many different GitHub organizations, so should have no knowledge about any specific
+   GitHub organization or its practices encoded in code. They should always be passed through as settings.
 
 ## Set up
 
@@ -125,3 +143,7 @@ jobs:
 ### Setting up the GitHub App
 
 Follow the same GitHub App setup process described above in the "Create a GitHub App for authentication" section.
+
+### Acknowledgement
+
+Thanks to [2i2c.org](https://2i2c.org) for initially building this, and donating it to the Jupyter organization!
