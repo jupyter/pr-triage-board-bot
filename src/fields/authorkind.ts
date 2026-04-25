@@ -33,7 +33,8 @@ export const getAuthorKind: typeof REQUIRED_FIELDS["Author Kind"]["getValue"] = 
     }
 
     const prCount = await getMergedPRCount(octokit, pr.repository.owner.login, pr.author.login);
-    if (prCount === 1) {
+    if (prCount === 0) {
+        // No PRs merged so far
         return "First Time Contributor";
     } else if (prCount < 10) {
         return "Early Contributor";
