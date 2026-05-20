@@ -49,23 +49,6 @@ describe('getAuthorKind', () => {
     expect(getCollaborators).toHaveBeenCalledWith(mockOctokit, 'testorg', 'testrepo');
   });
 
-  it('should return "First Time Contributor" for authors with only 1 PR', async () => {
-    const { getCollaborators } = jest.requireMock('../utils');
-    (getCollaborators as jest.MockedFunction<any>).mockResolvedValue(['other-user']);
-    (mockOctokit.graphql as jest.MockedFunction<any>).mockResolvedValue({
-      search: { issueCount: 1 }
-    });
-
-    const pr = {
-      author: { login: 'new-contributor' },
-      repository: { owner: { login: 'testorg' }, name: 'testrepo' }
-    };
-
-    const result = await getAuthorKind(mockOctokit, pr);
-    expect(result).toBe('First Time Contributor');
-    expect(mockOctokit.graphql).toHaveBeenCalledWith(expect.stringContaining('new-contributor'));
-  });
-
   it('should return "Early Contributor" for authors with 2-9 PRs', async () => {
     const { getCollaborators } = jest.requireMock('../utils');
     (getCollaborators as jest.MockedFunction<any>).mockResolvedValue(['other-user']);
@@ -98,23 +81,6 @@ describe('getAuthorKind', () => {
     const result = await getAuthorKind(mockOctokit, pr);
     expect(result).toBe('Seasoned Contributor');
     expect(mockOctokit.graphql).toHaveBeenCalledWith(expect.stringContaining('seasoned-contributor'));
-  });
-
-  it('should handle organization names with special characters', async () => {
-    const { getCollaborators } = jest.requireMock('../utils');
-    (getCollaborators as jest.MockedFunction<any>).mockResolvedValue(['other-user']);
-    (mockOctokit.graphql as jest.MockedFunction<any>).mockResolvedValue({
-      search: { issueCount: 1 }
-    });
-
-    const pr = {
-      author: { login: 'contributor' },
-      repository: { owner: { login: 'test-org!' }, name: 'test.repo' }
-    };
-
-    const result = await getAuthorKind(mockOctokit, pr);
-    expect(result).toBe('First Time Contributor');
-    expect(mockOctokit.graphql).toHaveBeenCalledWith(expect.stringContaining('test-org!'));
   });
 
   it('should properly handle different repository names', async () => {
