@@ -30,7 +30,8 @@ This section iterates the general principles that inform the design and operatio
    Changes to that are not reverted by the bot the next time it runs.
 
 2. The calculation of the values for Project Fields should be all **deterministic**, so they are stable between runs as long
-   as the PR itself doesn't change.
+   as neither the contents of the PR (it may get bigger, smaller, etc) nor information about the author (they may go from a first time
+   contributor to an early contributor, gain maintainer rights, etc) change.
 
 3. The bot should be useable across many different GitHub organizations, so should have no knowledge about any specific
    GitHub organization or its practices encoded in code. They should always be passed through as settings.
